@@ -20,7 +20,7 @@ public class CountryGrpcService : CountryServiceBase
         ServerCallContext context)
     {
         //////////// simulating an exception here ////////////
-        throw new Exception("Something got really wrong here...");
+        //throw new Exception("Something got really wrong here...");
 
         var countries = await countryManagementService.GetAllAsync();
 
