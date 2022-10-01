@@ -1,6 +1,8 @@
+using Calzolari.Grpc.AspNetCore.Validation;
 using CountryService.Web.Interceptors;
 using CountryService.Web.Providers;
 using CountryService.Web.Services;
+using CountryService.Web.Validators;
 using Grpc.Core;
 using Grpc.Net.Compression;
 using System.IO.Compression;
@@ -24,7 +26,12 @@ builder.Services.AddGrpc(options =>
 
     // Register custom ExceptionInterceptor interceptor
     options.Interceptors.Add<ExceptionInterceptor>();
+
+    options.EnableMessageValidation();
 });
+builder.Services.AddGrpcValidation();
+builder.Services.AddValidator<CountryCreateRequestValidator>();
+
 builder.Services.AddGrpcReflection();
 builder.Services.AddSingleton<CountryManagementService>();
 
