@@ -1,4 +1,8 @@
+using CountryService.Web.Interceptors;
+using CountryService.Web.Providers;
 using CountryService.Web.Services;
+using Grpc.Net.Compression;
+using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
 
 // Add services to the container.
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.CompressionProviders = new List<ICompressionProvider>
+    {
+        new GzipCompressionProvider(CompressionLevel.Optimal),
+        new BrotliCompressionProvider(CompressionLevel.Optimal)
+    };
+    options.ResponseCompressionAlgorithm = "br";
+    options.ResponseCompressionLevel = CompressionLevel.Optimal;
+
+    // Register custom ExceptionInterceptor interceptor
+    options.Interceptors.Add<ExceptionInterceptor>();
+});
 builder.Services.AddGrpcReflection();
 builder.Services.AddSingleton<CountryManagementService>();
 

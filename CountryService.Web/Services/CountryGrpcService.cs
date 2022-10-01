@@ -9,16 +9,18 @@ using static CountryService.Web.Protos.CountryService;
 public class CountryGrpcService : CountryServiceBase
 {
     private readonly CountryManagementService countryManagementService;
+    private readonly ILogger<CountryGrpcService> _logger;
 
-    public CountryGrpcService(CountryManagementService countryManagementService)
+    public CountryGrpcService(CountryManagementService countryManagementService, ILogger<CountryGrpcService> logger)
     {
         this.countryManagementService = countryManagementService;
+        _logger = logger;
     }
-    public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream, 
+    public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream,
         ServerCallContext context)
     {
         //////////// simulating an exception here ////////////
-        throw new Exception("Something got really wrong here");
+        throw new Exception("Something got really wrong here...");
 
         var countries = await countryManagementService.GetAllAsync();
 
