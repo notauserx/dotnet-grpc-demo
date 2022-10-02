@@ -1,4 +1,4 @@
-﻿using CountryService.Web.Protos;
+﻿using CountryService.Web.Protos.v1;
 using Google.Protobuf.WellKnownTypes;
 
 namespace CountryService.Web.Services

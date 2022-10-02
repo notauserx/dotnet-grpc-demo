@@ -1,10 +1,11 @@
-﻿namespace CountryService.Web.Services;
+﻿namespace CountryService.Web.Services.v1;
 
-using CountryService.Web.Protos;
+using CountryService.Web.Protos.v1;
+using CountryService.Web.Services;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System.Threading.Tasks;
-using static CountryService.Web.Protos.CountryService;
+using static CountryService.Web.Protos.v1.CountryService;
 
 public class CountryGrpcService : CountryServiceBase
 {
@@ -36,7 +37,7 @@ public class CountryGrpcService : CountryServiceBase
         // Send a single country to the client in the gRPC response
         return await countryManagementService.GetAsync(request);
     }
-    public override async Task<Empty> Delete(IAsyncStreamReader<CountryIdRequest> requestStream, 
+    public override async Task<Empty> Delete(IAsyncStreamReader<CountryIdRequest> requestStream,
         ServerCallContext context)
     {
         // Read and store all streamed input messages
@@ -56,7 +57,7 @@ public class CountryGrpcService : CountryServiceBase
         return new Empty();
     }
 
-    public override async Task Create(IAsyncStreamReader<CountryCreationRequest> requestStream, 
+    public override async Task Create(IAsyncStreamReader<CountryCreationRequest> requestStream,
         IServerStreamWriter<CountryCreationReply> responseStream, ServerCallContext context)
     {
         // Read and store all streamed input messages before performing any action
